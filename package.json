@@ -1,0 +1,41 @@
+{
+  "name": "gatsby-source-pilon",
+  "description": "Plugin for connecting Gatsby to Pilon API-first e-commerce platform",
+  "version": "0.1.0",
+  "author": "Garth Brantley <garth.brantley@pilon.io",
+  "bugs": {
+    "url": "https://github.com/pilon-io/gastby-source-pilon/issues"
+  },
+  "dependencies": {
+    "@babel/runtime": "^7.0.0",
+    "apollo-link": "1.2.1",
+    "apollo-link-http": "^1.5.4",
+    "graphql": "^0.13.2",
+    "graphql-tools": "^3.0.4",
+    "invariant": "^2.2.4",
+    "node-fetch": "^1.7.3",
+    "uuid": "^3.1.0"
+  },
+  "devDependencies": {
+    "@babel/cli": "^7.0.0",
+    "@babel/core": "^7.0.0",
+    "babel-preset-gatsby-package": "^0.1.3",
+    "cross-env": "^5.1.4"
+  },
+  "homepage": "https://github.com/pilon-io/gatsby-source-pilon/tree/master/packages/gatsby-source-pilon#readme",
+  "keywords": [
+    "gatsby",
+    "gatsby-plugin",
+    "gatsby-source-plugin",
+    "pilon",
+    "e-commerce",
+    "eCommerce"
+  ],
+  "license": "MIT",
+  "repository": "pilon-io/gastby-source-pilon",
+  "scripts": {
+    "build": "babel src --out-dir . --ignore **/__tests__",
+    "prepare": "cross-env NODE_ENV=production npm run build",
+    "watch": "babel -w src --out-dir . --ignore **/__tests__"
+  }
+}

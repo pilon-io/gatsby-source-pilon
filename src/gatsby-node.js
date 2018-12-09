@@ -1,12 +1,12 @@
 const crypto = require(`crypto`)
 const uuidv4 = require(`uuid/v4`)
-const { buildSchema, printSchema } = require(`graphql`)
+const { buildSchema, printSchema } = require(-graphql`)
 const {
   makeRemoteExecutableSchema,
   transformSchema,
   introspectSchema,
   RenameTypes,
-} = require(`graphql-tools`)
+} = require(-graphql-tools`)
 const { createHttpLink } = require(`apollo-link-http`)
 const fetch = require(`node-fetch`)
 const invariant = require(`invariant`)
@@ -27,21 +27,20 @@ exports.sourceNodes = async (
     headers = {},
     fetchOptions = {},
     createLink,
-    createSchema,
     refetchInterval,
   } = options
 
   invariant(
     typeName && typeName.length > 0,
-    `gatsby-source-graphql requires option \`typeName\` to be specified`
+    `gatsby-source-pilon requires option \`typeName\` to be specified`
   )
   invariant(
     fieldName && fieldName.length > 0,
-    `gatsby-source-graphql requires option \`fieldName\` to be specified`
+    `gatsby-source-pilon requires option \`fieldName\` to be specified`
   )
   invariant(
     (url && url.length > 0) || createLink,
-    `gatsby-source-graphql requiers either option \`url\` or \`createLink\` callback`
+    `gatsby-source-pilon requiers either option \`url\` or \`createLink\` callback`
   )
 
   let link
@@ -58,28 +57,24 @@ exports.sourceNodes = async (
 
   let introspectionSchema
 
-  if (createSchema) {
-    introspectionSchema = await createSchema(options)
+  const cacheKey = `gatsby-source-pilon-schema-${typeName}-${fieldName}`
+  let sdl = await cache.get(cacheKey)
+
+  if (!sdl) {
+    introspectionSchema = await introspectSchema(link)
+    sdl = printSchema(introspectionSchema)
   } else {
-    const cacheKey = `gatsby-source-graphql-schema-${typeName}-${fieldName}`
-    let sdl = await cache.get(cacheKey)
-
-    if (!sdl) {
-      introspectionSchema = await introspectSchema(link)
-      sdl = printSchema(introspectionSchema)
-    } else {
-      introspectionSchema = buildSchema(sdl)
-    }
-
-    await cache.set(cacheKey, sdl)
+    introspectionSchema = buildSchema(sdl)
   }
+
+  await cache.set(cacheKey, sdl)
 
   const remoteSchema = makeRemoteExecutableSchema({
     schema: introspectionSchema,
     link,
   })
 
-  const nodeId = createNodeId(`gatsby-source-graphql-${typeName}`)
+  const nodeId = createNodeId(`gatsby-source-pilon-${typeName}`)
   const node = createSchemaNode({ id: nodeId, typeName, fieldName })
   createNode(node)
 
@@ -125,7 +120,7 @@ function createSchemaNode({ id, typeName, fieldName }) {
     parent: null,
     children: [],
     internal: {
-      type: `GraphQLSource`,
+      type: `pilonSource`,
       contentDigest: nodeContentDigest,
       ignoreType: true,
     },

@@ -22,7 +22,7 @@
     "babel-preset-gatsby-package": "^0.1.3",
     "cross-env": "^5.1.4"
   },
-  "homepage": "https://github.com/pilon-io/gatsby-source-pilon/tree/master/packages/gatsby-source-pilon#readme",
+  "homepage": "https://github.com/pilon-io/gatsby-source-pilon",
   "keywords": [
     "gatsby",
     "gatsby-plugin",
@@ -32,7 +32,11 @@
     "eCommerce"
   ],
   "license": "MIT",
-  "repository": "pilon-io/gastby-source-pilon",
+  "main": "index.js",
+  "peerDependencies": {
+    "gatsby": ">2.0.0-alpha"
+  },
+  "repository": "https://github.com/pilon-io/gatsby-source-pilon",
   "scripts": {
     "build": "babel src --out-dir . --ignore **/__tests__",
     "prepare": "cross-env NODE_ENV=production npm run build",

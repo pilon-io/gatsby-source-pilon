@@ -9,11 +9,26 @@ const {
 } = require(`graphql-tools`)
 const { createHttpLink } = require(`apollo-link-http`)
 const fetch = require(`node-fetch`)
-const invariant = require(`invariant`)
 const {
   NamespaceUnderFieldTransform,
   StripNonQueryTransform,
 } = require(`./transforms`)
+
+const retrieveAuthToken = async () => {
+  return await fetch('https://api.pilon.io/v1/token', {
+    method: 'post',
+    body: JSON.stringify({
+      token_scope: 'public',
+      environment_id: process.env.PILON_ENVIRONMENT_ID,
+    }),
+    headers: { 
+      'Content-Type': 'application/json', 
+      'Accept': 'application/json' 
+    },
+  })
+  .then(res => res.json())
+  .then(json => json.token);
+}
 
 exports.sourceNodes = async (
   { actions, createNodeId, cache, store },
@@ -21,39 +36,23 @@ exports.sourceNodes = async (
 ) => {
   const { addThirdPartySchema, createPageDependency, createNode } = actions
   const {
-    url,
-    typeName,
-    fieldName,
-    headers = {},
-    fetchOptions = {},
-    createLink,
     refetchInterval,
   } = options
 
-  invariant(
-    typeName && typeName.length > 0,
-    `gatsby-source-pilon requires option \`typeName\` to be specified`
-  )
-  invariant(
-    fieldName && fieldName.length > 0,
-    `gatsby-source-pilon requires option \`fieldName\` to be specified`
-  )
-  invariant(
-    (url && url.length > 0) || createLink,
-    `gatsby-source-pilon requiers either option \`url\` or \`createLink\` callback`
-  )
+  const typeName = 'Pilon'
+  const fieldName = 'pilon'
+  const url = 'https://api.pilon.io/v1/graphql'
+  
+  const authToken = await retrieveAuthToken()
 
-  let link
-  if (createLink) {
-    link = await createLink(options)
-  } else {
-    link = createHttpLink({
-      uri: url,
-      fetch,
-      headers,
-      fetchOptions,
-    })
-  }
+  const link = createHttpLink({
+    uri: url,
+    fetch,
+    headers: {
+      Authorization: `Bearer ${authToken}`,
+    },
+    fetchOptions: {},
+  })
 
   let introspectionSchema
 

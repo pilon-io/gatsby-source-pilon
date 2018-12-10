@@ -1,12 +1,12 @@
 const crypto = require(`crypto`)
 const uuidv4 = require(`uuid/v4`)
-const { buildSchema, printSchema } = require(-graphql`)
+const { buildSchema, printSchema } = require(`graphql`)
 const {
   makeRemoteExecutableSchema,
   transformSchema,
   introspectSchema,
   RenameTypes,
-} = require(-graphql-tools`)
+} = require(`graphql-tools`)
 const { createHttpLink } = require(`apollo-link-http`)
 const fetch = require(`node-fetch`)
 const invariant = require(`invariant`)

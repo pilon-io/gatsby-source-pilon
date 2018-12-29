@@ -9,17 +9,18 @@ const {
 } = require(`graphql-tools`)
 const { createHttpLink } = require(`apollo-link-http`)
 const fetch = require(`node-fetch`)
+const invariant = require(`invariant`)
 const {
   NamespaceUnderFieldTransform,
   StripNonQueryTransform,
 } = require(`./transforms`)
 
-const retrieveAuthToken = async () => {
-  return await fetch('https://api.pilon.io/v1/token', {
+const retrieveAuthToken = async (pilonBaseUrl, environmentId) => {
+  return await fetch(`${pilonBaseUrl}/v1/token`, {
     method: 'post',
     body: JSON.stringify({
       token_scope: 'public',
-      environment_id: process.env.PILON_ENVIRONMENT_ID,
+      environment_id: environmentId,
     }),
     headers: { 
       'Content-Type': 'application/json', 
@@ -31,22 +32,30 @@ const retrieveAuthToken = async () => {
 }
 
 exports.sourceNodes = async (
-  { actions, createNodeId, cache, store },
+  { actions, createNodeId, cache },
   options
 ) => {
   const { addThirdPartySchema, createPageDependency, createNode } = actions
   const {
+    pilonUrl,
+    environmentId,
     refetchInterval,
   } = options
 
   const typeName = 'Pilon'
   const fieldName = 'pilon'
-  const url = 'https://api.pilon.io/v1/graphql'
   
-  const authToken = await retrieveAuthToken()
+  invariant(
+    environmentId && environmentId.length > 0,
+    `gatsby-source-pilon requires option \`environmentId\` to be specified`
+  )
+
+  const pilonBaseUrl = (pilonUrl && environmentId.length > 0) ? pilonUrl : 'https://api.pilon.io';
+
+  const authToken = await retrieveAuthToken(pilonBaseUrl, environmentId)
 
   const link = createHttpLink({
-    uri: url,
+    uri: `${pilonBaseUrl}/v1/graphql`,
     fetch,
     headers: {
       Authorization: `Bearer ${authToken}`,

@@ -1,6 +1,10 @@
 # gatsby-source-pilon
 
-Plugin for connecting Gatsby to Pilon API-first e-commerce platform.
+A plugin for sourcing data from [Pilon](https://pilon.io)'s e-commerce APIs into your Gatsby project.
+
+This plugin was modeled after the `gatsby-source-graphql` plugin and similarly uses schema-stitching to bring the Pilon GraphQL API into Gatsby.
+
+See the [Pilon Docs](https://docs.pilon.io) for more information on our APIs.
 
 ## Install
 
@@ -56,7 +60,7 @@ module.exports = {
 }
 ```
 
-# Refetching data
+## Refetching data
 
 By default, `gatsby-source-pilon` will only refetch the data once the server is restarted. Because this plugin was copied from `gatsby-source-graphql`, it's also possible to configure the plugin to periodically refetch the data. The option is called `refetchInterval` and specifies the timeout in seconds.
 
@@ -77,3 +81,7 @@ module.exports = {
   ],
 }
 ```
+
+## Get in touch
+
+If you have questions or want to learn more about Pilon, reach out to us at [info@pilon.io](mailto:info@pilon.io).

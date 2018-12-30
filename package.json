@@ -1,8 +1,8 @@
 {
   "name": "gatsby-source-pilon",
-  "description": "Plugin for connecting Gatsby to Pilon API-first e-commerce APIs",
+  "description": "Plugin for connecting Gatsby to Pilon e-commerce APIs",
   "version": "0.1.0",
-  "author": "Garth Brantley <garth.brantley@pilon.io",
+  "author": "Garth Brantley <garth.brantley@pilon.io> (https://pilon.io)",
   "bugs": {
     "url": "https://github.com/pilon-io/gastby-source-pilon/issues"
   },

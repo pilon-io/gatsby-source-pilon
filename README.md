@@ -12,6 +12,7 @@ See the [Pilon Docs](https://docs.pilon.io) for more information on our APIs.
 
 ## How to use
 
+Configure the plugin your `gatsby-config.js`:
 ```javascript
 // In your gatsby-config.js
 module.exports = {
@@ -36,6 +37,20 @@ module.exports = {
   ],
 }
 ```
+
+### Configuration options
+
+**`environmentId`** [string][required]
+
+Pilon Environment ID.
+
+**`pilonUrl`** [string][optional] [default: `'https://api.pilon.io'`]
+
+Base URL for the Pilon API connection.
+
+**`refetchInterval`** [integer][optional]
+
+Interval to refetch API data (in development environment).  See **Refetching data** below.
 
 ## How to Query
 

@@ -1,0 +1,35 @@
+{
+  "name": "gatsby-pilon-example",
+  "description": "Gatsby Pilon example",
+  "version": "0.0.1",
+  "author": "Orestis Ioannou <oorestisime@gmail.com>",
+  "dependencies": {
+    "dotenv": "^6.1.0",
+    "gatsby": "^2.0.98",
+    "gatsby-image": "^2.0.28",
+    "gatsby-plugin-react-svg": "^2.0.0",
+    "gatsby-plugin-sharp": "^2.0.18",
+    "gatsby-plugin-styled-components": "^3.0.2",
+    "gatsby-transformer-sharp": "^2.1.12",
+    "grommet": "^2.3.1",
+    "grommet-icons": "^4.0.0",
+    "prop-types": "^15.6.2",
+    "react": "^16.7.0",
+    "react-dom": "^16.7.0",
+    "styled-components": "^4.0.3",
+    "typeface-open-sans": "^0.0.54"
+  },
+  "keywords": [
+    "gatsby"
+  ],
+  "license": "MIT",
+  "scripts": {
+    "build": "gatsby build",
+    "develop": "gatsby develop",
+    "format": "prettier --write '**/*.js'",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git"
+  }
+}

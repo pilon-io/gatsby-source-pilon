@@ -1,7 +1,7 @@
 import { forEach } from "p-iteration"
 import { createClient, auth, queryAll } from "./pilon"
-import { ProductNode } from "./nodes"
-import { PRODUCTS_QUERY } from "./queries"
+import { ProductNode, PriceNode, ProductImageNode } from "./nodes"
+import { PRODUCTS_QUERY, PRODUCT_IMAGES_QUERY, PRICES_QUERY } from "./queries"
 import invariant from "invariant"
 
 export const sourceNodes = async (
@@ -26,9 +26,17 @@ export const sourceNodes = async (
 
   try {
     await Promise.all([
+      createNodes(`prices`, PRICES_QUERY, PriceNode, args),
+      createNodes(
+        `productImages`,
+        PRODUCT_IMAGES_QUERY,
+        ProductImageNode,
+        args
+      ),
       createNodes(`products`, PRODUCTS_QUERY, ProductNode, args),
     ])
   } catch (e) {
+    console.log(e)
     console.error(`An error occured while sourcing data`)
   }
 }

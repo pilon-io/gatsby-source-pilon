@@ -35,6 +35,27 @@ export const pageQuery = graphql`
           shortDesc
           primaryPrice
           weight
+          additionalImages {
+            id
+            image {
+              localFile {
+                childImageSharp {
+                  fluid(maxWidth: 600) {
+                    src
+                    srcSet
+                    base64
+                    aspectRatio
+                  }
+                }
+              }
+            }
+          }
+          prices {
+            id
+            currency
+            qty
+            amount
+          }
           image {
             localFile {
               childImageSharp {

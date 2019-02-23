@@ -60,7 +60,7 @@ export const queryAll = async (
   client,
   path,
   query,
-  first = 250,
+  first = 100,
   after,
   aggregatedResponse
 ) => {

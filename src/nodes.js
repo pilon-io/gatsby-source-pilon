@@ -1,10 +1,13 @@
 import createNodeHelpers from "gatsby-node-helpers"
-import { map } from "p-iteration"
 import { createRemoteFileNode } from "gatsby-source-filesystem"
 
 const TYPE_PREFIX = `Pilon`
+// Node types
+const Product = `Product`
+const ProductImage = `ProductImage`
+const Price = `Price`
 
-const { createNodeFactory } = createNodeHelpers({
+const { createNodeFactory, generateNodeId } = createNodeHelpers({
   typePrefix: TYPE_PREFIX,
 })
 
@@ -46,7 +49,7 @@ const handleMediaFile = async (
 }
 
 export const ProductNode = args =>
-  createNodeFactory(`Product`, async node => {
+  createNodeFactory(Product, async node => {
     if (node.image) {
       node.image.localFile___NODE = await handleMediaFile(
         {
@@ -56,21 +59,38 @@ export const ProductNode = args =>
         args
       )
     }
-    if (node.additionalImages && node.additionalImages.edges) {
-      node.additionalImages = await map(
-        node.additionalImages.edges,
-        async edge => {
-          edge.node.localFile___NODE = await handleMediaFile(
-            {
-              id: edge.node.id,
-              url: edge.node.image.contentUrl,
-            },
-            args
-          )
-          return edge.node
-        }
+    if (node.prices)
+      node.prices___NODE = node.prices.edges.map(edge =>
+        generateNodeId(Price, edge.node.id)
+      )
+    if (node.additionalImages)
+      node.additionalImages___NODE = node.additionalImages.edges.map(edge =>
+        generateNodeId(ProductImage, edge.node.id)
+      )
+
+    return node
+  })
+
+export const PriceNode = () =>
+  createNodeFactory(Price, node => {
+    if (node.product)
+      node.product___NODE = generateNodeId(Product, node.product.id)
+    return node
+  })
+
+export const ProductImageNode = args =>
+  createNodeFactory(ProductImage, async node => {
+    if (node.image) {
+      node.image.localFile___NODE = await handleMediaFile(
+        {
+          id: node.image.id,
+          url: node.image.contentUrl,
+        },
+        args
       )
     }
+    if (node.product)
+      node.product___NODE = generateNodeId(Product, node.product.id)
 
     return node
   })

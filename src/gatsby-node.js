@@ -13,6 +13,10 @@ export const sourceNodes = async (
     `gatsby-source-pilon requires option \`environmentId\` to be specified`
   )
   const authToken = await auth(pilonBaseUrl, environmentId)
+  invariant(
+    authToken,
+    `Couldn't authenticate to the API with your \`environmentId\``
+  )
   const client = createClient(pilonBaseUrl, authToken)
 
   const args = {

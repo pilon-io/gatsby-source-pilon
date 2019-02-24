@@ -40,7 +40,7 @@ export const pageQuery = graphql`
             image {
               localFile {
                 childImageSharp {
-                  fluid(maxWidth: 600) {
+                  fluid(maxWidth: 1000) {
                     src
                     srcSet
                     base64
@@ -59,7 +59,7 @@ export const pageQuery = graphql`
           image {
             localFile {
               childImageSharp {
-                fluid(maxWidth: 600) {
+                fluid(maxWidth: 1000) {
                   src
                   srcSet
                   base64

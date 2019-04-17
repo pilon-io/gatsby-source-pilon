@@ -7,7 +7,7 @@ import { get, last } from "lodash/fp"
  * @param {string} authToken A token retrieved from the Pilon API
  */
 export const createClient = (baseUrl, authToken) =>
-  new GraphQLClient(`${baseUrl}/v1/graphql`, {
+  new GraphQLClient(`${baseUrl}/graphql`, {
     headers: {
       Authorization: `Bearer ${authToken}`,
     },

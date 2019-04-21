@@ -1,5 +1,6 @@
 import { forEach } from "p-iteration"
-import { createClient, auth, queryAll } from "./pilon"
+import { AnonymousAuth } from "@pilon-io/js-sdk"
+import { createClient, queryAll } from "./pilon"
 import { ProductNode, PriceNode, ProductImageNode } from "./nodes"
 import { PRODUCTS_QUERY, PRODUCT_IMAGES_QUERY, PRICES_QUERY } from "./queries"
 import invariant from "invariant"
@@ -12,7 +13,7 @@ export const sourceNodes = async (
     environmentId && environmentId.length > 0,
     `gatsby-source-pilon requires option \`environmentId\` to be specified`
   )
-  const authToken = await auth(pilonBaseUrl, environmentId)
+  const authToken = await AnonymousAuth.getToken(environmentId)
   invariant(
     authToken,
     `Couldn't authenticate to the API with your \`environmentId\``

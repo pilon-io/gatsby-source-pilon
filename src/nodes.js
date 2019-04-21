@@ -4,7 +4,7 @@ import { createRemoteFileNode } from "gatsby-source-filesystem"
 const TYPE_PREFIX = `Pilon`
 // Node types
 const Product = `Product`
-const ProductImage = `ProductImage`
+const ProductAdditionalImage = `ProductAdditionalImage`
 const Price = `Price`
 
 const { createNodeFactory, generateNodeId } = createNodeHelpers({
@@ -65,7 +65,7 @@ export const ProductNode = args =>
       )
     if (node.additionalImages)
       node.additionalImages___NODE = node.additionalImages.edges.map(edge =>
-        generateNodeId(ProductImage, edge.node.id)
+        generateNodeId(ProductAdditionalImage, edge.node.id)
       )
 
     return node
@@ -79,7 +79,7 @@ export const PriceNode = () =>
   })
 
 export const ProductImageNode = args =>
-  createNodeFactory(ProductImage, async node => {
+  createNodeFactory(ProductAdditionalImage, async node => {
     if (node.image) {
       node.image.localFile___NODE = await handleMediaFile(
         {

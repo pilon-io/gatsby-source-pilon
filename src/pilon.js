@@ -9,29 +9,9 @@ import { get, last } from "lodash/fp"
 export const createClient = (baseUrl, authToken) =>
   new GraphQLClient(`${baseUrl}/graphql`, {
     headers: {
-      Authorization: `Bearer ${authToken}`,
+      Authorization: `CUSTOMER-SESSION-ID ${authToken}`,
     },
   })
-
-/**
- * Request an authToken from the API
- * @param {string} baseUrl A pilon API url
- * @param {string} environmentId An environment Id used for authentication
- */
-export const auth = async (baseUrl, environmentId) =>
-  await fetch(`${baseUrl}/v1/token`, {
-    method: `post`,
-    body: JSON.stringify({
-      token_scope: `public`,
-      environment_id: environmentId,
-    }),
-    headers: {
-      "Content-Type": `application/json`,
-      Accept: `application/json`,
-    },
-  })
-    .then(res => res.json())
-    .then(json => json.token)
 
 /**
  * Execute a graphql query and get results without paginating
